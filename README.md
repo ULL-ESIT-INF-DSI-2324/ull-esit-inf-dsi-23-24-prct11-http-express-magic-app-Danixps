@@ -7,13 +7,13 @@
 
 ## Ejemplo de Uso 
 
-### GET: http://localhost:3001/cards?user=edusegre http://localhost:3001/cards?user=edusegre&id=2
+### GET: http://localhost:3001/cards?user=edusegre o http://localhost:3001/cards?user=edusegre&id=2
 
 ### POST: http://localhost:3001/cards?id=100&user=edusegre&name=danixps&manaCost=12&color=negro&type=tierra&rarity=rara&rulesText=carta1&marketValue=1
 
 ### DELETE: http://localhost:3001/cards?user=edusegre&id=1 
 
-### PATCH: http://localhost:3001/cards?id=100&user=danixps&name=Dark Lion&manaCost=120&color=negro&type=tierra&rarity=rara&rulesText=carta1&marketValue=1
+### PATCH: http://localhost:3001/cards?id=100&user=danixps&name=DarkLion&manaCost=120&color=negro&type=tierra&rarity=rara&rulesText=carta1&marketValue=1
 
 
 [![Tests](https://github.com/Danixps/ULL-DSI-P10/actions/workflows/node.js.yml/badge.svg)](https://github.com/Danixps/ULL-DSI-P10/actions/workflows/node.js.yml)
