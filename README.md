@@ -38,6 +38,42 @@ Para la ruta /cards con el método DELETE, defino una función para manejar la s
 #### PATCH
 Para la ruta /cards con el método PATCH, defino una función para manejar la solicitud. Esta función extrae los datos de la carta del cuerpo de la solicitud y luego llama a la función correspondiente para modificar la carta en la colección.
 
+En esta línea, importo el módulo Express y los tipos Request y Response desde Express. Esto es esencial para manejar las solicitudes HTTP entrantes y enviar respuestas adecuadas.
+`import { Card, addCardToCollection, Color, Rarity, deleteCardToCollection, LineType, modifyCardToCollection, showCards } from './index.js';`
+
+Aquí, importo diversas funciones y tipos relacionados con operaciones sobre cartas desde otro archivo (index.js). Esto ayuda a mantener mi código organizado y modular.
+
+`const app = express();`
+
+Creo una instancia de la aplicación Express para definir rutas y manejar solicitudes HTTP entrantes.
+
+app.get('/cards', (req: Request, res: Response) => {
+  // Código para manejar las solicitudes GET a la ruta '/cards'
+});
+
+Defino una ruta GET para /cards. Cuando se recibe una solicitud GET en esta ruta, se ejecuta una función que maneja la solicitud y muestra la información sobre las cartas.
+
+app.post('/cards', (req: Request, res: Response) => {
+  // Código para manejar las solicitudes POST a la ruta '/cards'
+});
+Defino una ruta POST para /cards. Cuando se recibe una solicitud POST en esta ruta, se ejecuta una función que maneja la solicitud y agrega una nueva carta a la colección.
+
+app.delete('/cards', (req: Request, res: Response) => {
+  // Código para manejar las solicitudes DELETE a la ruta '/cards'
+});
+Defino una ruta DELETE para /cards. Cuando se recibe una solicitud DELETE en esta ruta, se ejecuta una función que maneja la solicitud y elimina.
+
+app.patch('/cards', (req: Request, res: Response) => {
+  // Código para manejar las solicitudes PATCH a la ruta '/cards'
+});
+
+Defino una ruta PATCH para /cards. Cuando se recibe una solicitud PATCH en esta ruta, se ejecuta una función que maneja la solicitud y modifica la información de una carta en la colección.
+
+app.listen(3001, () => {
+  console.log('Servidor Express ejecutándose en el puerto 3000');
+});
+
+Inicio el servidor Express en el puerto 3001 y muestro un mensaje en la consola para confirmar que el servidor se está ejecutando correctamente. Esto asegura que mi servidor esté listo para recibir y manejar solicitudes entrantes.
 ## Ejemplo de Uso 
 
 ### GET: http://localhost:3001/cards?user=edusegre o http://localhost:3001/cards?user=edusegre&id=2
