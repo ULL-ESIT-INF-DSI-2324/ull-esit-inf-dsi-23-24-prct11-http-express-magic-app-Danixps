@@ -94,6 +94,33 @@ export class Card implements Card_Characteristics {
 }
 type Data = string;
 
+
+export const showCards = (user: string, id : number | undefined, callback:( err: Error | undefined, data: Data | undefined) => void) => {
+    //si no hay id, se listan todas las cartas
+    if (!id) {
+        fs.readdir(`./collections/${user}`, (err, files) => {
+            if (err) {
+                callback(err, undefined);
+            } else {
+                const cards = files.map((file) => {
+                    return JSON.parse(fs.readFileSync(`./collections/${user}/${file}`, 'utf-8'));
+                });
+                callback(undefined, JSON.stringify(cards));
+            }
+        });
+    } else {
+        //si hay id, se busca la carta con ese id
+        fs.readFile(`./collections/${user}/${id}.json`, 'utf-8', (err, data) => {
+            if (err) {
+                callback(err, undefined);
+            } else {
+                callback(undefined, data);
+            }
+        });
+    }
+}
+
+
 //ADDCARD
 /**
  * Descripcion: Añade la carta de la collection de forma asyncrona
@@ -108,12 +135,15 @@ export const addCardToCollection = (user: string, card: Card, callback:( err: Er
             // la carta ya existe, emitir un mensaje de error
             callback(new Error("La carta ya existe en la colección."), undefined);
         } else {
-            // la carta no existe, proceder a escribir el archivo JSON
+           if (!fs.existsSync(`./collections/${user}`)) {
+                fs.mkdirSync(`./collections/${user}`);
+            }
+            // si la carta no existe, se crea el archivo
             fs.writeFile(filePath, JSON.stringify(card), (err) => {
                 if (err) {
-                    callback(err, undefined); // Error al escribir el archivo
+                    callback(err, undefined); // error al escribir el archivo
                 } else {
-                    callback(undefined, 'Éxito al cargar la carta'); // éxito al añadir la carta
+                    callback(undefined, 'Éxito al añadir la carta a ' + user); // éxito al añadir la carta
                 }
             });
         }
@@ -127,8 +157,8 @@ export const addCardToCollection = (user: string, card: Card, callback:( err: Er
  * @param card carta a manipular
  * @callback manejador donde tengo como argumento data y error donde los ire manipulando dependiendo de la situacion
  */
-export const deleteCardToCollection = (user: string, card: Card, callback:( err: Error | undefined, data: Data | undefined) => void) => {
-    const filePath = `./collections/${user}/${card.id}.json`;
+export const deleteCardToCollection = (user: string, id: number, callback:( err: Error | undefined, data: Data | undefined) => void) => {
+    const filePath = `./collections/${user}/${id}.json`;
     //compruebo si puedo acceder al archivo 
     fs.access(filePath, fs.constants.F_OK, (err) => {
         if (!err) {
@@ -176,20 +206,20 @@ export const modifyCardToCollection = (user: string, card: Card, callback:( err:
 }
 
 
-// uso de la función addCardToCollection
-deleteCardToCollection("edusegre", new Card(777, 'Black Lotus', 69, Color.Black, LineType.Tierra, Rarity.Rare, 'Tap to delete the enemy creature.', 100 ), (error) => {
+
+showCards("edusegre", 777, (error, data) => {
     if (error) {
-        console.error("Error:", error.message);
+      console.error("Error:", error.message);
     } else {
-        console.log("¡Nueva carta añadida a la colección!");
+        console.log("Carta encontrada:");
+        console.log(data);
     }
 });
 
-// uso de la función deleteCardToCollection
-addCardToCollection("edusegre", new Card(777, 'Black Lotus', 69, Color.Black, LineType.Tierra, Rarity.Rare, 'Tap to delete the enemy creature.', 100 ), (error) => {
+showCards("edusegre", undefined, (error, data) => {
     if (error) {
-        console.error("Error:", error.message);
+      console.error("Error:", error.message);
     } else {
-        console.log("Éxito al eliminar la carta");
+        console.log(data);
     }
 });
